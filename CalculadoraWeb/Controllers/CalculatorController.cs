@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection.Metadata.Ecma335;
 
 namespace CalculadoraWeb.Controllers
 {
@@ -13,8 +14,9 @@ namespace CalculadoraWeb.Controllers
             _logger = logger;
         }
 
+        //Soma
         [HttpGet("sum/{firstNumber}/{secondNumber}")]
-        public IActionResult Get(string firstNumber, string secondNumber)
+        public IActionResult GetSoma(string firstNumber, string secondNumber)
         {
             if (IsNumeric(firstNumber) && IsNumeric(secondNumber))
             {
@@ -24,6 +26,42 @@ namespace CalculadoraWeb.Controllers
             return BadRequest("Invalid input");
         }
 
+
+        //Subtracao
+        [HttpGet("sub/{firstNumber}/{secondNumber}")]
+        public IActionResult GetSubtracao(string firstNumber, string secondNumber)
+        {
+            if (IsNumeric(firstNumber) && IsNumeric(secondNumber))
+            {
+                var subtracao = ConvertToDecimal(firstNumber) - ConvertToDecimal(secondNumber);
+                return Ok(subtracao.ToString());
+            }
+            return BadRequest("Invalid input");
+        }
+
+        //Multiplicacao
+        [HttpGet("multi/{firstNumber}/{secondNumber}")]
+        public IActionResult GetMultiplicacao(string firstNumber, string secondNumber)
+        {
+            if(IsNumeric(firstNumber) && IsNumeric(secondNumber))
+            {
+                var multip = ConvertToDecimal(firstNumber) * ConvertToDecimal(secondNumber);
+                return Ok(multip.ToString());
+            }
+            return BadRequest("Invalid Input");
+        }
+
+        //Divisao
+        [HttpGet("divi/{n1}/{n2}")]
+        public IActionResult GetDivisao(string n1, string n2)
+        {
+            if(IsNumeric(n1) && IsNumeric(n2))
+            {
+                var divisao = ConvertToDecimal(n1) / ConvertToDecimal(n2);
+                return Ok(divisao.ToString());
+            }
+            return BadRequest("Invalid Input");
+        }
 
         //outras operações (get)
 
@@ -43,7 +81,7 @@ namespace CalculadoraWeb.Controllers
             bool isNumber = double.TryParse(number, System.Globalization.NumberStyles.Any, System.Globalization.NumberFormatInfo.InvariantInfo, out n);
 
             return isNumber;
-            
+
         }
     }
 }
